@@ -27,8 +27,8 @@ lights_frame.pack(side="top", pady=50)
 
 lights_canvas = ttk.Canvas(lights_frame, width=300, height=100)
 lights_canvas.pack()
-red_light = lights_canvas.create_oval(75, 75, 5, 5, fill="red", outline="black", width="4")
-green_light = lights_canvas.create_oval(295, 75, 220, 5, fill="green", outline="black", width="4", )
+red_light = lights_canvas.create_oval(75, 75, 5, 5, fill="red", outline="black", width="1")
+green_light = lights_canvas.create_oval(295, 75, 225, 5, fill="green", outline="black", width="1")
 
 # temperature
 temperature_frame = ttk.Frame(root, width=200, height=400)
@@ -53,7 +53,7 @@ except tk.TclError as e:
 # slider to simulate temperature change
 # replace later with input values from arduino
 slider = tk.Scale(temperature_frame, from_=21, to=80, orient=ttk.HORIZONTAL, command=update_thermometer)
-
 slider.pack()
+
 
 root.mainloop()
