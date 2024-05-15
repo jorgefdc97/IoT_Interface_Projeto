@@ -5,10 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e508f1b6-f830-4357-8404-c6b12f449db3" name="Changes" comment="First commit">
+      <change afterPath="$PROJECT_DIR$/Arduino/Arduino" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Arduino/ESP32" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Interface/resources/topicos" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/IoT_Interface_Projeto.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/IoT_Interface_Projeto.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Application.py" beforeDir="false" afterPath="$PROJECT_DIR$/Application.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application.py" beforeDir="false" afterPath="$PROJECT_DIR$/Interface/Application.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Help/MenuButton.png" beforeDir="false" afterPath="$PROJECT_DIR$/Interface/Help/MenuButton.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Help/menus.png" beforeDir="false" afterPath="$PROJECT_DIR$/Interface/Help/menus.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Help/tabs.png" beforeDir="false" afterPath="$PROJECT_DIR$/Interface/Help/tabs.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Help/window-size.png" beforeDir="false" afterPath="$PROJECT_DIR$/Interface/Help/window-size.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Teste.py" beforeDir="false" afterPath="$PROJECT_DIR$/Interface/Teste.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/icon.png" beforeDir="false" afterPath="$PROJECT_DIR$/Interface/icon.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Interface/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/thermometer.png" beforeDir="false" afterPath="$PROJECT_DIR$/Interface/resources/thermometer.png" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,6 +34,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="jorge" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
@@ -65,13 +81,13 @@
       <recent name="C:\Users\jorge\PycharmProjects\IoT_Interface_Projeto" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\PycharmProjects\IoT_Interface_Projeto\Interface" />
       <recent name="C:\Users\jorge\PycharmProjects\IoT_Interface_Projeto\resources" />
     </key>
   </component>
   <component name="RunManager" selected="Python.Application">
     <configuration name="Application" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="IoT_Interface_Projeto" />
-      <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -82,7 +98,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Application.py" />
+      <option name="SCRIPT_NAME" value="D:\PycharmProjects\IoT_Interface_Projeto\Interface\Application.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -93,7 +109,6 @@
     </configuration>
     <configuration name="Main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="IoT_Interface_Projeto" />
-      <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -115,7 +130,6 @@
     </configuration>
     <configuration name="Test_iot" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="IoT_Interface_Projeto" />
-      <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -137,7 +151,6 @@
     </configuration>
     <configuration name="Teste" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="IoT_Interface_Projeto" />
-      <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -148,7 +161,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Teste.py" />
+      <option name="SCRIPT_NAME" value="D:\PycharmProjects\IoT_Interface_Projeto\Interface\Teste.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -159,7 +172,6 @@
     </configuration>
     <configuration name="gui" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="IoT_Interface_Projeto" />
-      <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -183,9 +195,9 @@
       <list>
         <item itemvalue="Python.Application" />
         <item itemvalue="Python.Teste" />
-        <item itemvalue="Python.gui" />
         <item itemvalue="Python.Test_iot" />
         <item itemvalue="Python.Main" />
+        <item itemvalue="Python.gui" />
       </list>
     </recent_temporary>
   </component>

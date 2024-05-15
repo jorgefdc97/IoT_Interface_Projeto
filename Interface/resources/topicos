@@ -1,0 +1,4 @@
+topic: ic/grupoX/alarme
+
+subscrever ic/+/alarme -> receber do servidor todos os que tiverem este
+
