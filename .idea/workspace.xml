@@ -4,22 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e508f1b6-f830-4357-8404-c6b12f449db3" name="Changes" comment="First commit">
-      <change afterPath="$PROJECT_DIR$/Arduino/Arduino" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Arduino/ESP32" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Interface/resources/topicos" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/IoT_Interface_Projeto.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/IoT_Interface_Projeto.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="e508f1b6-f830-4357-8404-c6b12f449db3" name="Changes" comment="Arduino files">
+      <change afterPath="$PROJECT_DIR$/MQTT/Publisher.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MQTT/Subscriber.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Application.py" beforeDir="false" afterPath="$PROJECT_DIR$/Interface/Application.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Help/MenuButton.png" beforeDir="false" afterPath="$PROJECT_DIR$/Interface/Help/MenuButton.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Help/menus.png" beforeDir="false" afterPath="$PROJECT_DIR$/Interface/Help/menus.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Help/tabs.png" beforeDir="false" afterPath="$PROJECT_DIR$/Interface/Help/tabs.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Help/window-size.png" beforeDir="false" afterPath="$PROJECT_DIR$/Interface/Help/window-size.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Teste.py" beforeDir="false" afterPath="$PROJECT_DIR$/Interface/Teste.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/icon.png" beforeDir="false" afterPath="$PROJECT_DIR$/Interface/icon.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Interface/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/thermometer.png" beforeDir="false" afterPath="$PROJECT_DIR$/Interface/resources/thermometer.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Arduino/ESP32" beforeDir="false" afterPath="$PROJECT_DIR$/Arduino/ESP32" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,12 +36,14 @@
     &quot;assignee&quot;: &quot;jorgefdc97&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/jorgefdc97/IoT_Interface_Projeto.git&quot;,
-    &quot;accountId&quot;: &quot;0684c2b6-d69a-4ac4-ba42-085667fb366d&quot;
-  }
-}</component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="8bd4e848-66fe-443e-acda-9812f92a13be" />
+        <option name="url" value="https://github.com/jorgefdc97/IoT_Interface_Projeto" />
+      </UrlAndAccount>
+    </option>
+  </component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
@@ -107,7 +98,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="Publisher" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="IoT_Interface_Projeto" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -115,11 +106,32 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/MQTT" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Main.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/MQTT/Publisher.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Subscriber" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="IoT_Interface_Projeto" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/MQTT" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="D:\PycharmProjects\IoT_Interface_Projeto\MQTT\Subscriber.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -170,34 +182,13 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="gui" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="IoT_Interface_Projeto" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/build" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/build/gui.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Python.Application" />
+        <item itemvalue="Python.Subscriber" />
+        <item itemvalue="Python.Publisher" />
         <item itemvalue="Python.Teste" />
         <item itemvalue="Python.Test_iot" />
-        <item itemvalue="Python.Main" />
-        <item itemvalue="Python.gui" />
       </list>
     </recent_temporary>
   </component>
@@ -225,7 +216,15 @@
       <option name="project" value="LOCAL" />
       <updated>1713606358170</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Arduino files">
+      <option name="closed" value="true" />
+      <created>1715782471876</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1715782471876</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -241,6 +240,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="First commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="First commit" />
+    <MESSAGE value="Arduino files" />
+    <option name="LAST_COMMIT_MESSAGE" value="Arduino files" />
   </component>
 </project>
