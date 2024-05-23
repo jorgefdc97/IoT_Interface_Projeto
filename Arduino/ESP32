@@ -7,7 +7,7 @@ const char* ssid = "DuckNet";
 const char* password = "DuckieUPT";
 const char* mqtt_server = "192.168.0.101";
 #define mqtt_port 1883
-#define TOPIC "/ic/Grupo0"
+#define TOPIC "/ic/Grupo3"
 const char* topic1 = "/#";
 
 WiFiClient wifiClient;
@@ -36,7 +36,7 @@ void reconnect() {
   while (!mqttClient.connected()) {
     Serial.print("Attempting MQTT connection...");
     // Create a random client ID
-    char* clientId = "Arduino0";
+    char* clientId = "Grupo3_ESP32";
     // Attempt to connect
     if (mqttClient.connect(clientId)) {
       Serial.println("mqttClient connected");
@@ -103,13 +103,12 @@ void callback(char* topic, byte* payload, unsigned int length) {
 
 void loop() {
   mqttClient.loop();
-  //  if (Serial.available() > 0) {
-  //    char bfr[501];
-  //    memset(bfr,0, 501);
-  //    Serial.readBytesUntil( '\n',bfr,500);
-  //    publishSerialData(bfr);
-  //  }
-  publishSerialData("Teste");
+  if (Serial.available() > 0) {
+    char bfr[501];
+    memset(bfr,0, 501);
+    Serial.readBytesUntil( '\n',bfr,500);
+    publishSerialData(bfr);
+  }
+  //publishSerialData("Teste");
   // Serial.print(".");
-delay(2000);
 }

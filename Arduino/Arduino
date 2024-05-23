@@ -1,18 +1,19 @@
 /*
  * Pin layout:
- * --------------------------------
- *             MFRC522      Arduino
- * Signal      Pin          Pin
- * --------------------------------
- * RST/Reset   RST          9
- * SPI SS      SDA(SS)      10
- * SPI MOSI    MOSI         11
- * SPI MISO    MISO         12
- * SPI SCK     SCK          13
- * SDA
- * SCL
+ * ----------|------------|-------------|--------------------------------------------|
+ *           |  Arduino   |   ESP32     |                 DESCRIPTION                |
+ * Signal    |  Pin       |   Pin       |                                            |
+ * ----------|------------|-------------|--------------------------------------------|
+ * RX        |      0     |      TX2    |
+ * TX        |      1     |      RX2    |
+ * BUTTON    |      4     |
+ * LED BLUE  |      5     |
+ * LED RED   |      6     |
+ * LED GREEN |      7     |
+ * BUZZER    |      8     |
+ * BUZZER    |      9     |
 */
-//#include <IRremote.h>
+#include <IRremote.h>
 #include <LiquidCrystal_I2C.h>
 #include <dht.h>
 
@@ -20,17 +21,17 @@ const int FLAME_PIN = A0;
 const int SENSOR_IR = A1;
 const int SENSOR_TEMP = A2;
 
+const int IR_RECEIVER_PIN = 3;
 const int BUTTON_PIN = 4;
-const int BLUE_LED_PIN = 5;
-const int RED_LED_PIN = 6;
-const int GREEN_LED_PIN = 7;
+const int LED_BLUE_PIN = 5;
+const int LED_RED_PIN = 6;
+const int LED_GREEN_PIN = 7;
 const int PIEZO_PIN = 8;
+const int PIEZO_2_PIN = 9;
 
 dht DHT;
 
 LiquidCrystal_I2C lcd(0x27, 16, 2);
-
-
 
 float lcd_timestamp;
 float flame_value;
@@ -39,37 +40,32 @@ float flame_value;
 void setup(){
   Serial.begin(9600);
 
-  //inputs
-
-  //outputs
-  pinMode(BLUE_LED_PIN, OUTPUT);
-  pinMode(RED_LED_PIN, OUTPUT);
-  pinMode(GREEN_LED_PIN, OUTPUT);
-  pinMode(PIEZO_PIN, OUTPUT);
-
+  //------inputs
+  IrReceiver.begin(IR_RECEIVER_PIN, ENABLE_LED_FEEDBACK); //ir receiver
   pinMode(BUTTON_PIN, INPUT_PULLUP);
   pinMode(FLAME_PIN, INPUT);
+  //------outputs
+  pinMode(LED_BLUE_PIN, OUTPUT);
+  pinMode(LED_RED_PIN, OUTPUT);
+  pinMode(LED_GREEN_PIN, OUTPUT);
+  pinMode(PIEZO_PIN, OUTPUT);
+  pinMode(PIEZO_2_PIN, OUTPUT);
 
-  //lcd
+  //------lcd
   lcd.begin(16,2);
   lcd.init();
   lcd.backlight();
 
-  //infra red
-  //irrecv.enableIRIn();
-
-} //end setup
+} //------end setup
 
 
 void loop(){
 
-  //temperature
-  /*float input = analogRead(SENSOR_TEMP) * 5 / (1023.0);
-  float celsius = (input) * 100;*/
-  //VERSAO TINKERCAD
+  //------temperature translation from analog signal
   float input = analogRead(SENSOR_TEMP) * 5000.0 / 1024.0;
   float celsius = (input - 500.0) / 10.0;
 
+  //------refreshing LCD each 5 seconds
   if(millis() - lcd_timestamp > 5000){
     lcd.clear();
     lcd.setCursor(0,0);
@@ -79,22 +75,28 @@ void loop(){
     lcd_timestamp = millis();
   }
 
+  //------flame signal reading
   flame_value = analogRead(FLAME_PIN);
-  if(digitalRead(BUTTON_PIN) == LOW){
-    digitalWrite(BLUE_LED_PIN, HIGH);
-  }else{
-    digitalWrite(BLUE_LED_PIN, LOW);
-  }
+  //Serial.println(flame_value);
 
+
+  //------turning on buzzer when detecting fire
   if(flame_value < 940){
-    Serial.println(flame_value);
-    digitalWrite(RED_LED_PIN, HIGH);
-    digitalWrite(GREEN_LED_PIN, LOW);
+    digitalWrite(LED_RED_PIN, HIGH);
+    digitalWrite(LED_GREEN_PIN, LOW);
     tone(PIEZO_PIN, 590, 2000);
   }else{
-    Serial.println(flame_value);
-    digitalWrite(RED_LED_PIN, LOW);
-    digitalWrite(GREEN_LED_PIN, HIGH);
+
+    digitalWrite(LED_RED_PIN, LOW);
+    digitalWrite(LED_GREEN_PIN, HIGH);
   }
 
+  //------button
+  if(digitalRead(BUTTON_PIN) == LOW){
+    digitalWrite(LED_BLUE_PIN, HIGH);
+  }else{
+    digitalWrite(LED_BLUE_PIN, LOW);
+  }
+
+  //
 }
