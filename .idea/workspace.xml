@@ -4,14 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e508f1b6-f830-4357-8404-c6b12f449db3" name="Changes" comment="Subscriber and Publisher examples connected with MQTT">
-      <change afterPath="$PROJECT_DIR$/MQTT/Publisher_Remote.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MQTT/Subscriber_Remote.py" afterDir="false" />
+    <list default="true" id="e508f1b6-f830-4357-8404-c6b12f449db3" name="Changes" comment="Publisher and Subscriber scripts to access remote broker">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Arduino/Arduino" beforeDir="false" afterPath="$PROJECT_DIR$/Arduino/Arduino" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Arduino/ESP32" beforeDir="false" afterPath="$PROJECT_DIR$/Arduino/ESP32" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MQTT/Publisher.py" beforeDir="false" afterPath="$PROJECT_DIR$/MQTT/Publisher.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MQTT/Subscriber.py" beforeDir="false" afterPath="$PROJECT_DIR$/MQTT/Subscriber.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -235,7 +230,15 @@
       <option name="project" value="LOCAL" />
       <updated>1716316376319</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Publisher and Subscriber scripts to access remote broker">
+      <option name="closed" value="true" />
+      <created>1716473231546</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1716473231546</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -253,6 +256,7 @@
     <MESSAGE value="First commit" />
     <MESSAGE value="Arduino files" />
     <MESSAGE value="Subscriber and Publisher examples connected with MQTT" />
-    <option name="LAST_COMMIT_MESSAGE" value="Subscriber and Publisher examples connected with MQTT" />
+    <MESSAGE value="Publisher and Subscriber scripts to access remote broker" />
+    <option name="LAST_COMMIT_MESSAGE" value="Publisher and Subscriber scripts to access remote broker" />
   </component>
 </project>

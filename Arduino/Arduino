@@ -4,14 +4,17 @@
  *           |  Arduino   |   ESP32     |                 DESCRIPTION                |
  * Signal    |  Pin       |   Pin       |                                            |
  * ----------|------------|-------------|--------------------------------------------|
+ * FLAME     |      A0    |             |
+ * INFRARED  |      A1    |             |
+ * TEMP      |      A2    |             |
  * RX        |      0     |      TX2    |
  * TX        |      1     |      RX2    |
  * BUTTON    |      4     |
  * LED BLUE  |      5     |
  * LED RED   |      6     |
  * LED GREEN |      7     |
- * BUZZER    |      8     |
- * BUZZER    |      9     |
+ * BUZZER    |      8     |
+ * BUZZER    |      9     |
 */
 #include <IRremote.h>
 #include <LiquidCrystal_I2C.h>
@@ -34,11 +37,12 @@ dht DHT;
 LiquidCrystal_I2C lcd(0x27, 16, 2);
 
 float lcd_timestamp;
+float alarm_timestamp;
 float flame_value;
 
 
 void setup(){
-  Serial.begin(9600);
+  Serial.begin(115200);
 
   //------inputs
   IrReceiver.begin(IR_RECEIVER_PIN, ENABLE_LED_FEEDBACK); //ir receiver
@@ -60,7 +64,6 @@ void setup(){
 
 
 void loop(){
-
   //------temperature translation from analog signal
   float input = analogRead(SENSOR_TEMP) * 5000.0 / 1024.0;
   float celsius = (input - 500.0) / 10.0;
@@ -73,6 +76,9 @@ void loop(){
     lcd.print(" Celsius");
 
     lcd_timestamp = millis();
+
+    Serial.print("temp-");
+    Serial.print(celsius);
   }
 
   //------flame signal reading
@@ -82,21 +88,96 @@ void loop(){
 
   //------turning on buzzer when detecting fire
   if(flame_value < 940){
-    digitalWrite(LED_RED_PIN, HIGH);
-    digitalWrite(LED_GREEN_PIN, LOW);
-    tone(PIEZO_PIN, 590, 2000);
+    is_fire();
   }else{
-
     digitalWrite(LED_RED_PIN, LOW);
     digitalWrite(LED_GREEN_PIN, HIGH);
+    Serial.print("fire-0");
   }
 
   //------button
   if(digitalRead(BUTTON_PIN) == LOW){
-    digitalWrite(LED_BLUE_PIN, HIGH);
+    turn_on_led(LED_BLUE_PIN);
+    Serial.print("button-1");
   }else{
-    digitalWrite(LED_BLUE_PIN, LOW);
+    turn_off_led(LED_BLUE_PIN);
+    Serial.print("button-0");
   }
 
   //
+}
+
+
+void is_fire(){
+  turn_red();
+  if(millis() - alarm_timestamp > 3000){
+    turn_on_alarm();
+    alarm_timestamp = millis();
+  }
+
+  Serial.print("fire-1");
+}
+
+void is_ok(){
+
+}
+
+//TURN ON LED RED
+void turn_red(){
+  turn_off_blue();
+  turn_off_green();
+  turn_on_red();
+}
+
+//TURN ON GREEN RED
+void turn_green(){
+  turn_of_blue();
+  turn_on_green();
+  turn_off_red();
+}
+
+//TURN ON BLUE RED
+void turn_blue(){
+  turn_on_blue();
+  turn_off_green();
+  turn_off_red();
+}
+
+void turn_on_red(){
+  digitalWrite(LED_RED_PIN, HIGH);
+  Serial.println("red-1");
+}
+
+void turn_off_red(){
+  digitalWrite(LED_RED_PIN, LOW);
+  Serial.println("red-0");
+}
+
+void turn_on_green(){
+  digitalWrite(LED_GREEN_PIN, HIGH);
+  Serial.println("green-1");
+}
+
+void turn_off_green(){
+  digitalWrite(LED_GREEN_PIN, LOW);
+  Serial.println("green-0");
+}
+
+void turn_on_blue(){
+  digitalWrite(LED_BLUE_PIN, HIGH);
+  Serial.println("blue-1");
+}
+
+void turn_off_blue(){
+  digitalWrite(LED_BLUE_PIN, LOW);
+  Serial.println("blue-0");
+}
+
+void turn_on_alarm(){
+  tone(PIEZO_PIN, 590, 2000);
+  Serial.println("alarm-1");
+}
+
+void turn_off_alarm(){
+  Serial.println("alarm-0");
 }
