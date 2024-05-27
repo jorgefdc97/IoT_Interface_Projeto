@@ -153,9 +153,9 @@ class Subscriber:
             print(msg.payload.decode())
         elif msg.topic == (self.TOPIC + "temp"):
             print(msg.payload.decode())
-        elif msg.topic == (self.TOPIC + "fire_on"):
+        elif msg.topic == (self.TOPIC + "fire-1"):
             self.app.turn_on_red_light()
-            print("fire_on")
+            print("fire-1")
         elif msg.topic == (self.TOPIC + "fire_off"):
             self.app.turn_off_red_light()
             print("fire_off")

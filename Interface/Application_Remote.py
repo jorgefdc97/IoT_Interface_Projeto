@@ -11,8 +11,6 @@ import threading  # Import threading
 BROKER_ADDRESS = "192.168.0.101"  # broker's IP address
 PORT = 1883  # Default MQTT port
 
-TOPIC = "/ic/"
-
 RED_LIGHT_OFF_COLOR = "indianred4"
 RED_LIGHT_ON_COLOR = "red3"
 GREEN_LIGHT_OFF_COLOR = "chartreuse4"
@@ -130,7 +128,7 @@ class IoTApplication:
 class Subscriber:
     def __init__(self, app):
         self.client = mqtt.Client(client_id="Grupo3_Interface")
-        self.TOPIC = "/ic/Grupo3/"
+        self.TOPIC = "/ic"
         self.app = app
         self.USERNAME = "DuckNet"  # Your network's username
         self.PASSWORD = "DuckieUPT"  # Your network's password
@@ -149,7 +147,7 @@ class Subscriber:
     def on_connect(self, client, userdata, flags, rc):
         if rc == 0:
             print("Connected to broker")
-            client.subscribe(self.TOPIC + "#")
+            client.subscribe(self.TOPIC + "/Grupo3")
         else:
             print("Connection failed with code", rc)
 
@@ -158,10 +156,10 @@ class Subscriber:
             print(msg.payload.decode())
         elif msg.topic == (self.TOPIC + "temp"):
             print(msg.payload.decode())
-        elif msg.topic == (self.TOPIC + "fire_on"):
+        elif msg.topic == (self.TOPIC + "fire-1"):
             self.app.turn_on_red_light()
             print("fire_on")
-        elif msg.topic == (self.TOPIC + "fire_off"):
+        elif msg.topic == (self.TOPIC + "fire-0"):
             self.app.turn_off_red_light()
             print("fire_off")
 
