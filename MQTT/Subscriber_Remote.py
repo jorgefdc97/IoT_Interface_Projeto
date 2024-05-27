@@ -1,27 +1,32 @@
 import paho.mqtt.client as mqtt
+import Interface.Application as app
 
-broker_address = "192.168.0.101"  # broker's IP address
-port = 1883  # Default MQTT port
-username = "DuckNet"  # Your network's username
-password = "DuckieUPT"  # Your network's password
 
-client = mqtt.Client(client_id="TestSubscriber")
+BROKER_ADDRESS = "192.168.0.101"  # broker's IP address
+PORT = 1883  # Default MQTT port
+USERNAME = "DuckNet"  # Your network's username
+PASSWORD = "DuckieUPT"  # Your network's password
+
+CLIENT = mqtt.Client(client_id="TestSubscriber")
+
+TOPIC = "/ic/"
 
 def on_connect(client, userdata, flags, rc):
     if rc == 0:
         print("Connected to broker")
-        client.subscribe("/ic/#")
+        client.subscribe(TOPIC+"#")
     else:
         print("Connection failed with code", rc)
 
 def on_message(client, userdata, msg):
-    print(f"Received message: {msg.payload.decode()} on topic {msg.topic}")
+    if msg.topic == (TOPIC+"temp"):
+        print(f"Received message: {msg.payload.decode()} on topic {msg.topic}")
 
-client.on_connect = on_connect
-client.on_message = on_message
+CLIENT.on_connect = on_connect
+CLIENT.on_message = on_message
 
-client.username_pw_set(username, password)
+CLIENT.username_pw_set(USERNAME, PASSWORD)
 
-client.connect(broker_address, port)
+CLIENT.connect(BROKER_ADDRESS, PORT)
 
-client.loop_forever()
+CLIENT.loop_forever()

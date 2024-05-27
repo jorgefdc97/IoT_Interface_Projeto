@@ -22,7 +22,13 @@ client.loop_start()
 
 try:
     while True:
+        client.publish("/ic/Grupo3/fire_1", "FIRE_ON")
+        print("Message Published")
+        time.sleep(5)
         client.publish("/ic/Grupo3/test", "Hello MQTT")
+        print("Message Published")
+        time.sleep(5)
+        client.publish("/ic/Grupo3/temp", "TEMPERATURA")
         print("Message Published")
         time.sleep(5)
 except KeyboardInterrupt:

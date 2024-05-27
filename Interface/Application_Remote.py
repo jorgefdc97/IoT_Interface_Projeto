@@ -8,8 +8,11 @@ import paho.mqtt.client as mqtt
 import threading  # Import threading
 
 # Constants
-broker_address = "127.0.0.1"
-port = 1883
+BROKER_ADDRESS = "192.168.0.101"  # broker's IP address
+PORT = 1883  # Default MQTT port
+
+TOPIC = "/ic/"
+
 RED_LIGHT_OFF_COLOR = "indianred4"
 RED_LIGHT_ON_COLOR = "red3"
 GREEN_LIGHT_OFF_COLOR = "chartreuse4"
@@ -126,15 +129,17 @@ class IoTApplication:
 
 class Subscriber:
     def __init__(self, app):
-        self.client = mqtt.Client(client_id="TestSubscriber")
+        self.client = mqtt.Client(client_id="Grupo3_Interface")
         self.TOPIC = "/ic/Grupo3/"
         self.app = app
+        self.USERNAME = "DuckNet"  # Your network's username
+        self.PASSWORD = "DuckieUPT"  # Your network's password
 
     def run(self):
         self.client.on_connect = self.on_connect
         self.client.on_message = self.on_message
 
-        self.client.connect(broker_address, port)
+        self.client.connect(BROKER_ADDRESS, PORT)
 
         # Run MQTT client in a separate thread
         mqtt_thread = threading.Thread(target=self.client.loop_forever)

@@ -6,7 +6,7 @@ port = 1883  # Default MQTT port
 username = "DuckNet"  # Your network's username
 password = "DuckieUPT"  # Your network's password
 
-client = mqtt.Client(client_id="TestPublisher")
+client = mqtt.Client(client_id="Publisher")
 
 def on_connect(client, userdata, flags, rc):
     if rc == 0:
