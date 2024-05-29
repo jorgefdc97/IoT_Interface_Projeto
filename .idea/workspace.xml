@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e508f1b6-f830-4357-8404-c6b12f449db3" name="Changes" comment="Publisher and Subscriber scripts to access remote broker">
+    <list default="true" id="e508f1b6-f830-4357-8404-c6b12f449db3" name="Changes" comment="Subscription by interface">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Arduino/Arduino" beforeDir="false" afterPath="$PROJECT_DIR$/Arduino/Arduino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Arduino/ESP32" beforeDir="false" afterPath="$PROJECT_DIR$/Arduino/ESP32" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,7 +63,7 @@
     &quot;Python.gui.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/PycharmProjects/IoT_Interface_Projeto&quot;
+    &quot;last_opened_file_path&quot;: &quot;D:/PycharmProjects/LaboratorioAnaliseDados_Projeto&quot;
   }
 }</component>
   <component name="RecentsManager">
@@ -74,7 +75,7 @@
       <recent name="C:\Users\jorge\PycharmProjects\IoT_Interface_Projeto\resources" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.Application (1)">
+  <component name="RunManager" selected="Python.Application_Remote">
     <configuration name="Application (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="IoT_Interface_Projeto" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -88,6 +89,27 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Interface/Application.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Application_Remote" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="IoT_Interface_Projeto" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Interface" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Interface/Application_Remote.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -159,34 +181,13 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Subscriber_Remote" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="IoT_Interface_Projeto" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/MQTT" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/MQTT/Subscriber_Remote.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.Application_Remote" />
         <item itemvalue="Python.Application (1)" />
-        <item itemvalue="Python.Publisher_Remote" />
-        <item itemvalue="Python.Subscriber_Remote" />
         <item itemvalue="Python.Publisher" />
         <item itemvalue="Python.Subscriber (1)" />
+        <item itemvalue="Python.Publisher_Remote" />
       </list>
     </recent_temporary>
   </component>
@@ -238,7 +239,31 @@
       <option name="project" value="LOCAL" />
       <updated>1716473231546</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Arduino script with string messages to print in serial and go to ESP32">
+      <option name="closed" value="true" />
+      <created>1716501330319</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1716501330319</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Application Remote">
+      <option name="closed" value="true" />
+      <created>1716808408876</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1716808408876</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Subscription by interface">
+      <option name="closed" value="true" />
+      <created>1716814256836</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1716814256836</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -257,6 +282,9 @@
     <MESSAGE value="Arduino files" />
     <MESSAGE value="Subscriber and Publisher examples connected with MQTT" />
     <MESSAGE value="Publisher and Subscriber scripts to access remote broker" />
-    <option name="LAST_COMMIT_MESSAGE" value="Publisher and Subscriber scripts to access remote broker" />
+    <MESSAGE value="Arduino script with string messages to print in serial and go to ESP32" />
+    <MESSAGE value="Application Remote" />
+    <MESSAGE value="Subscription by interface" />
+    <option name="LAST_COMMIT_MESSAGE" value="Subscription by interface" />
   </component>
 </project>

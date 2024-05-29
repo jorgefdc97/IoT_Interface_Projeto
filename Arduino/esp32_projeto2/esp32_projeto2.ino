@@ -1,6 +1,9 @@
 #include <WiFi.h>
 #include <PubSubClient.h>
-#include <SoftwareSerial.h>
+#include <HardwareSerial.h>
+
+// Use Serial2 on the ESP32 for communication with the Arduino
+HardwareSerial SerialPort(2);
 
 // Update these with values suitable for your network.
 const char* ssid = "DuckNet";
@@ -8,7 +11,7 @@ const char* password = "DuckieUPT";
 const char* mqtt_server = "192.168.0.101";
 #define mqtt_port 1883
 #define TOPIC "/ic/Grupo3"
-const char* topic1 = "/#";
+const char* topic1 = "/ic/#";
 
 WiFiClient wifiClient;
 PubSubClient mqttClient(wifiClient);
@@ -43,7 +46,7 @@ void reconnect() {
       Serial.print(" : ");
       Serial.println("hello world");
       boolean res = mqttClient.subscribe(topic1);
-      Serial.print(topic1);
+      Serial.print(topic1); 
       Serial.println(res ? "  true" : "  false");
     } else {
       Serial.print("failed, rc=");
@@ -57,7 +60,8 @@ void reconnect() {
 void setup() {
   Serial.begin(115200);
   Serial.setTimeout(500);  // Set timeout for serial reading
-  Serial1.begin(9600);     // Assuming Arduino is connected to Serial1 at 9600 baud rate
+  // Initialize Serial2 for communication with Arduino
+  SerialPort.begin(19200, SERIAL_8N1, 16, 17);
   setup_wifi();
   mqttClient.setServer(mqtt_server, mqtt_port);
   mqttClient.setCallback(callback);
@@ -87,10 +91,16 @@ void callback(char* topic, byte* payload, unsigned int length) {
 
 void loop() {
   mqttClient.loop();
-  if (Serial1.available() > 0) {
+  Serial.println(".");
+  if (SerialPort.available() > 0) {
+    Serial.println("dados");
     char bfr[501];
     memset(bfr, 0, 501);
-    Serial1.readBytesUntil('\n', bfr, 500);
+    SerialPort.readBytesUntil('\n', bfr, 500);
+    String b = String(bfr);
     publishSerialData(bfr);
   }
+  //Serial.print("ola");
+  SerialPort.print("ola");
+  delay(5000);
 }

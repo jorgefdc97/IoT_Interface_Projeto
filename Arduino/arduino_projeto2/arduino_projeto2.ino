@@ -37,6 +37,9 @@ const int PIEZO_2_PIN = 9;
 dht DHT;
 
 LiquidCrystal_I2C lcd(0x27, 16, 2);
+String system_status;
+const String STATUS_OK = "OK";
+const String STATUS_FIRE = "FIRE";
 
 unsigned long lcd_timestamp;
 unsigned long alarm_timestamp;
@@ -44,7 +47,7 @@ int flame_value;
 
 void setup() {
     Serial.begin(115200);
-    sw.begin(115200);
+    sw.begin(19200);
     // Inputs
     IrReceiver.begin(IR_RECEIVER_PIN, ENABLE_LED_FEEDBACK); // IR receiver
     pinMode(BUTTON_PIN, INPUT_PULLUP);
@@ -62,6 +65,8 @@ void setup() {
     lcd.begin(16, 2);
     lcd.init();
     lcd.backlight();
+
+    system_status = STATUS_OK;
 }
 
 void loop() {
@@ -71,10 +76,7 @@ void loop() {
 
     // Refreshing LCD every 5 seconds
     if (millis() - lcd_timestamp > 5000) {
-        lcd.clear();
-        lcd.setCursor(0, 0);
-        lcd.print(celsius);
-        lcd.print(" Celsius");
+        refresh_lcd();
 
         lcd_timestamp = millis();
 
@@ -86,14 +88,7 @@ void loop() {
     flame_value = analogRead(FLAME_PIN);
 
     // Turn on buzzer when detecting fire
-    if (flame_value < 940) {
-        is_fire();
-    } else {
-        digitalWrite(LED_RED_PIN, LOW);
-        digitalWrite(LED_GREEN_PIN, HIGH);
-        sw.print("fire-0");
-        Serial.println("fire-0");
-    }
+    check_fire(flame_value);
 
     // Button handling
     if (digitalRead(BUTTON_PIN) == LOW) {
@@ -105,15 +100,39 @@ void loop() {
     }
 }
 
-void is_fire() {
-    turn_red();
-    if (millis() - alarm_timestamp > 3000) {
-        turn_on_alarm();
-        alarm_timestamp = millis();
+void check_fire() {
+  if (flame_value < 940) {
+    if(system_status != STATUS_FIRE){
+      turn_red();
+      if (millis() - alarm_timestamp > 3000) {
+          turn_on_alarm();
+          alarm_timestamp = millis();
+      }
+      sw.print("fire-1");
+      Serial.println("fire-1");
+      system_status = STATUS_FIRE;
+    }else{
+      if(system_status == STATUS_FIRE){
+        system_ok();
+      }
     }
-    sw.print("fire-1");
-    Serial.println("fire-1");
+  }  
+} 
 
+//system is ok
+void system_ok(){
+    system_status = STATUS_OK; 
+    refresh_lcd();
+  }
+} 
+
+void refresh_lcd(){
+  lcd.clear();
+  lcd.setCursor(0,0);
+  lcd.print(system_status);
+  lcd.setCursor(0,1);
+  lcd.print(celsius);
+  lcd.print(" Celsius");
 }
 
 void turn_red() {
