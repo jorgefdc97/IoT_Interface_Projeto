@@ -1,5 +1,6 @@
 #include <WiFi.h>
 #include <PubSubClient.h>
+#include <SoftwareSerial.h>
 
 // Update these with values suitable for your network.
 const char* ssid = "DuckNet";

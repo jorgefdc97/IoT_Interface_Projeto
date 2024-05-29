@@ -19,7 +19,9 @@
 #include <IRremote.h>
 #include <LiquidCrystal_I2C.h>
 #include <dht.h>
+#include <SoftwareSerial.h>
 
+SoftwareSerial sw(0, 1); // RX, TX
 const int FLAME_PIN = A0;
 const int SENSOR_IR = A1;
 const int SENSOR_TEMP = A2;
@@ -42,7 +44,7 @@ int flame_value;
 
 void setup() {
     Serial.begin(115200);
-
+    sw.begin(115200);
     // Inputs
     IrReceiver.begin(IR_RECEIVER_PIN, ENABLE_LED_FEEDBACK); // IR receiver
     pinMode(BUTTON_PIN, INPUT_PULLUP);
@@ -89,6 +91,7 @@ void loop() {
     } else {
         digitalWrite(LED_RED_PIN, LOW);
         digitalWrite(LED_GREEN_PIN, HIGH);
+        sw.print("fire-0");
         Serial.println("fire-0");
     }
 
@@ -108,8 +111,9 @@ void is_fire() {
         turn_on_alarm();
         alarm_timestamp = millis();
     }
-
+    sw.print("fire-1");
     Serial.println("fire-1");
+
 }
 
 void turn_red() {
