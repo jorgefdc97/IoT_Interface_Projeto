@@ -37,14 +37,20 @@ const int PIEZO_2_PIN = 9;
 dht DHT;
 
 LiquidCrystal_I2C lcd(0x27, 16, 2);
+String system_status;
+const String STATUS_OK = "OK";
+const String STATUS_FIRE = "FIRE";
 
 unsigned long lcd_timestamp;
 unsigned long alarm_timestamp;
 int flame_value;
+float celsius;
+bool button_status;
+float fire_timestamp;
 
 void setup() {
     Serial.begin(115200);
-    sw.begin(115200);
+    sw.begin(19200);
     // Inputs
     IrReceiver.begin(IR_RECEIVER_PIN, ENABLE_LED_FEEDBACK); // IR receiver
     pinMode(BUTTON_PIN, INPUT_PULLUP);
@@ -62,19 +68,20 @@ void setup() {
     lcd.begin(16, 2);
     lcd.init();
     lcd.backlight();
+
+    system_status = STATUS_OK;
+    celsius = 0;
+    button_status = false;
 }
 
 void loop() {
     // Temperature translation from analog signal
     float input = analogRead(SENSOR_TEMP) * 5000.0 / 1024.0;
-    float celsius = (input - 500.0) / 10.0;
+    celsius = (input - 500.0) / 10.0;
 
     // Refreshing LCD every 5 seconds
     if (millis() - lcd_timestamp > 5000) {
-        lcd.clear();
-        lcd.setCursor(0, 0);
-        lcd.print(celsius);
-        lcd.print(" Celsius");
+        refresh_lcd();
 
         lcd_timestamp = millis();
 
@@ -86,34 +93,59 @@ void loop() {
     flame_value = analogRead(FLAME_PIN);
 
     // Turn on buzzer when detecting fire
-    if (flame_value < 940) {
-        is_fire();
-    } else {
-        digitalWrite(LED_RED_PIN, LOW);
-        digitalWrite(LED_GREEN_PIN, HIGH);
-        sw.print("fire-0");
-        Serial.println("fire-0");
-    }
+    check_fire(flame_value);
 
     // Button handling
     if (digitalRead(BUTTON_PIN) == LOW) {
-        turn_on_led(LED_BLUE_PIN);
-        Serial.println("button-1");
+        if(button_status == false){
+          button_status = true;
+          turn_on_led(LED_BLUE_PIN);
+          Serial.println("button-1");
+        }
     } else {
-        turn_off_led(LED_BLUE_PIN);
-        Serial.println("button-0");
+        if(button_status == true){
+          button_status = false;
+          turn_off_led(LED_BLUE_PIN);
+          Serial.println("button-0");
+        }
     }
 }
 
-void is_fire() {
-    turn_red();
-    if (millis() - alarm_timestamp > 3000) {
-        turn_on_alarm();
-        alarm_timestamp = millis();
+void check_fire(float flame_value) {
+  if (flame_value < 940) {
+    //Serial.println(flame_value);
+    if(system_status != STATUS_FIRE){
+      turn_red();
+      if (millis() - alarm_timestamp > 3000) {
+          turn_on_alarm();
+          alarm_timestamp = millis();
+      }
+      sw.print("fire-1");
+      Serial.println("fire-1");
+      system_status = STATUS_FIRE;
+      fire_timestamp = millis();
     }
-    sw.print("fire-1");
-    Serial.println("fire-1");
+  }else{
+    if(system_status == STATUS_FIRE && millis() - fire_timestamp > 5000){
+      system_ok();
+    }
+  }
+}
 
+//system is ok
+void system_ok(){
+    system_status = STATUS_OK;
+    turn_green();
+    refresh_lcd();
+}
+
+void refresh_lcd(){
+  lcd.clear();
+  lcd.setCursor(0,0);
+  lcd.print(system_status);
+  lcd.setCursor(0,1);
+  lcd.print(celsius);
+  lcd.print(" Celsius");
 }
 
 void turn_red() {
