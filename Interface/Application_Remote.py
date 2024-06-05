@@ -46,9 +46,9 @@ class IoTApplication:
         self.lights_canvas = ttk.Canvas(self.lights_frame, width=300, height=100, background="white")
         self.lights_canvas.pack()
 
-        warning_message = self.lights_canvas.create_text(150, 45, text="WARNING", font=("Digital-7", 25), fill="white")
+        self.warning_message = self.lights_canvas.create_text(150, 45, text="WARNING", font=("Digital-7", 25), fill="white")
         warning_background = self.lights_canvas.create_rectangle(80, 20, 220, 70, fill=WARNING_PANEL_COLOR)
-        self.lights_canvas.tag_lower(warning_background, warning_message)
+        self.lights_canvas.tag_lower(warning_background, self.warning_message)
 
         self.turn_off_green_light()
         self.turn_off_red_light()
@@ -121,10 +121,16 @@ class IoTApplication:
         except Exception as e:
             print(f"Error loading graph image: {e}")
 
-    def warning_panel_message(self):
-        # Implement warning message logic here
-        pass
+    def warning_panel_message(self, message):
+        self.warning_message = self.lights_canvas.create_text(150, 45, text="WARNING", font=("Digital-7", 25), fill="white")
 
+    def is_fire(self):
+        self.warning_panel_message("FIRE")
+        self.turn_on_red_light()
+
+    def system_is_ok(self):
+        self.warning_panel_message("OK")
+        self.turn_off_red_light()
 
 class Subscriber:
     def __init__(self, app):
@@ -161,14 +167,14 @@ class Subscriber:
         print("Message payload:", msg.payload.decode())
         if msg.topic == (self.TOPIC + "test"):
             print("TEST")
-            #print(msg.payload.decode())
+            print("MESSAGE: " + msg.payload.decode() + "!!!")
         elif msg.topic == (self.TOPIC + "temp"):
             print("TEMP")
             #print(msg.payload.decode())
         elif msg.topic == (self.TOPIC + "fire"):
             self.app.turn_on_red_light()
             time.sleep(3000)
-        elif msg.topic == (self.TOPIC + "fire:0"):
+        elif msg.topic == (self.TOPIC + "ok"):
             self.app.turn_off_red_light()
             print("fire_off")
 
