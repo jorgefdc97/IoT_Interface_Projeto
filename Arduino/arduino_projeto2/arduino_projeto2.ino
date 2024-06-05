@@ -44,6 +44,7 @@ const String STATUS_FIRE = "FIRE";
 unsigned long lcd_timestamp;
 unsigned long alarm_timestamp;
 int flame_value;
+float celsius;
 
 void setup() {
     Serial.begin(115200);
@@ -67,12 +68,13 @@ void setup() {
     lcd.backlight();
 
     system_status = STATUS_OK;
+    celsius = 0;
 }
 
 void loop() {
     // Temperature translation from analog signal
     float input = analogRead(SENSOR_TEMP) * 5000.0 / 1024.0;
-    float celsius = (input - 500.0) / 10.0;
+    celsius = (input - 500.0) / 10.0;
 
     // Refreshing LCD every 5 seconds
     if (millis() - lcd_timestamp > 5000) {
@@ -100,7 +102,7 @@ void loop() {
     }
 }
 
-void check_fire() {
+void check_fire(float flame_value) {
   if (flame_value < 940) {
     if(system_status != STATUS_FIRE){
       turn_red();
@@ -123,7 +125,6 @@ void check_fire() {
 void system_ok(){
     system_status = STATUS_OK; 
     refresh_lcd();
-  }
 } 
 
 void refresh_lcd(){

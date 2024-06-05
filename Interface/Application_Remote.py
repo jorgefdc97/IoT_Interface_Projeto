@@ -1,3 +1,4 @@
+import time
 import tkinter as tk
 import ttkbootstrap as ttk
 import os
@@ -128,7 +129,8 @@ class IoTApplication:
 class Subscriber:
     def __init__(self, app):
         self.client = mqtt.Client(client_id="Grupo3_Interface")
-        self.TOPIC = "/ic"
+        self.GENERAL_TOPIC = "/ic/#"
+        self.TOPIC = "/ic/Grupo3/"
         self.app = app
         self.USERNAME = "DuckNet"  # Your network's username
         self.PASSWORD = "DuckieUPT"  # Your network's password
@@ -138,28 +140,35 @@ class Subscriber:
         self.client.on_message = self.on_message
 
         self.client.connect(BROKER_ADDRESS, PORT)
+        self.client.username_pw_set(self.USERNAME, self.PASSWORD)
 
         # Run MQTT client in a separate thread
         mqtt_thread = threading.Thread(target=self.client.loop_forever)
         mqtt_thread.daemon = True  # Allows thread to exit when main program exits
         mqtt_thread.start()
+        print('MQTT thread loop started')
 
     def on_connect(self, client, userdata, flags, rc):
         if rc == 0:
             print("Connected to broker")
-            client.subscribe(self.TOPIC + "/Grupo3")
+            client.subscribe(self.TOPIC + "#")
+            print("Subscribing" + self.TOPIC + "#")
         else:
             print("Connection failed with code", rc)
 
     def on_message(self, client, userdata, msg):
+        print("Received message on topic:", msg.topic)
+        print("Message payload:", msg.payload.decode())
         if msg.topic == (self.TOPIC + "test"):
-            print(msg.payload.decode())
+            print("TEST")
+            #print(msg.payload.decode())
         elif msg.topic == (self.TOPIC + "temp"):
-            print(msg.payload.decode())
-        elif msg.topic == (self.TOPIC + "fire-1"):
+            print("TEMP")
+            #print(msg.payload.decode())
+        elif msg.topic == (self.TOPIC + "fire"):
             self.app.turn_on_red_light()
-            print("fire_on")
-        elif msg.topic == (self.TOPIC + "fire-0"):
+            time.sleep(3000)
+        elif msg.topic == (self.TOPIC + "fire:0"):
             self.app.turn_off_red_light()
             print("fire_off")
 
