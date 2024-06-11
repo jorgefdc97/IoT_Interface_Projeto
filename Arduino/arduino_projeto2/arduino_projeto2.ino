@@ -82,7 +82,7 @@ void loop() {
 
         lcd_timestamp = millis();
 
-        Serial.print("temp-");
+        Serial.print("temp:");
         Serial.println(celsius);
     }
 
@@ -95,10 +95,9 @@ void loop() {
     // Button handling
     if (digitalRead(BUTTON_PIN) == LOW) {
         turn_on_led(LED_BLUE_PIN);
-        Serial.println("button-1");
+        Serial.println("button");
     } else {
         turn_off_led(LED_BLUE_PIN);
-        Serial.println("button-0");
     }
 }
 
@@ -110,8 +109,8 @@ void check_fire(float flame_value) {
           turn_on_alarm();
           alarm_timestamp = millis();
       }
-      sw.print("fire-1");
-      Serial.println("fire-1");
+      sw.print("fire");
+      Serial.println("fire");
       system_status = STATUS_FIRE;
     }else{
       if(system_status == STATUS_FIRE){
@@ -156,42 +155,35 @@ void turn_blue() {
 
 void turn_on_red() {
     digitalWrite(LED_RED_PIN, HIGH);
-    Serial.println("red-1");
 }
 
 void turn_off_red() {
     digitalWrite(LED_RED_PIN, LOW);
-    Serial.println("red-0");
 }
 
 void turn_on_green() {
     digitalWrite(LED_GREEN_PIN, HIGH);
-    Serial.println("green-1");
 }
 
 void turn_off_green() {
     digitalWrite(LED_GREEN_PIN, LOW);
-    Serial.println("green-0");
 }
 
 void turn_on_blue() {
     digitalWrite(LED_BLUE_PIN, HIGH);
-    Serial.println("blue-1");
 }
 
 void turn_off_blue() {
     digitalWrite(LED_BLUE_PIN, LOW);
-    Serial.println("blue-0");
 }
 
 void turn_on_alarm() {
     tone(PIEZO_PIN, 590, 2000);
-    Serial.println("alarm-1");
+    Serial.println("alarm");
 }
 
 void turn_off_alarm() {
     noTone(PIEZO_PIN);
-    Serial.println("alarm-0");
 }
 
 void turn_on_led(int pin) {
