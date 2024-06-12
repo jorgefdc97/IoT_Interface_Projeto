@@ -8,9 +8,11 @@
 HardwareSerial SerialPort(2);
 
 // Update these with values suitable for your network.
-const char* ssid = "DuckNet";
-const char* password = "DuckieUPT";
-const char* mqtt_server = "192.168.0.101";
+//const char* ssid = "upt-convidados";
+//const char* password = "welcome2upt";
+const char* ssid = "upt-convidados";
+const char* password = "welcome2upt";
+const char* mqtt_server = "192.168.0.100";
 #define mqtt_port 1883
 #define TOPIC "/ic/Grupo3/"
 const char* topic1 = "/ic/#";
@@ -72,7 +74,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
   Serial.print(topic);
   Serial.print("] ");
   for (unsigned int i = 0; i < length; i++) {
-    Serial.print((char)payload[i]);
+    SerialPort.print((char)payload[i]);
   }
   Serial.println();
 }

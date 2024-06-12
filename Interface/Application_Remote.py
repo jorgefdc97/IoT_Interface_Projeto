@@ -12,13 +12,16 @@ import threading
 import time
 
 # Constants
-BROKER_ADDRESS = "192.168.0.101"  # broker's IP address
+#BROKER_ADDRESS = "192.168.0.101"
+BROKER_ADDRESS = "127.0.0.1"
 PORT = 1883  # Default MQTT port
 
 RED_LIGHT_OFF_COLOR = "indianred4"
 RED_LIGHT_ON_COLOR = "red3"
 GREEN_LIGHT_OFF_COLOR = "chartreuse4"
 GREEN_LIGHT_ON_COLOR = "chartreuse2"
+BLUE_LIGHT_OFF_COLOR = "midnight blue"
+BLUE_LIGHT_ON_COLOR = "blue2"
 WARNING_PANEL_COLOR = "gray11"
 
 # Paths
@@ -51,14 +54,16 @@ class IoTApplication:
         self.setup_lights_frame()
         self.setup_temperature_frame()
         self.subscriber = Subscriber(self)
-        #self.temperature_storage = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-        #                            0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
-        #self.temperature_timestamp = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
+        self.temperature_storage = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                                    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+        self.temperature_timestamp = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
+        """
         self.temperature_storage = [12.34, 23.45, 34.56, 45.67, 15.78, 26.89, 37.90, 48.01, 19.12, 29.23, 39.34, 49.45,
                                10.56, 20.67, 30.78, 40.89, 11.90, 22.01, 33.12, 44.23]
         self.temperature_timestamp = ["08:15:32", "09:25:43", "10:35:54", "11:45:05", "12:55:16", "13:05:27", "14:15:38",
                                  "15:25:49", "16:35:50", "17:45:01", "18:55:12", "19:05:23", "20:15:34", "21:25:45",
                                  "22:35:56", "23:45:07", "00:55:18", "01:05:29", "02:15:30", "03:25:41"]
+        """
 
     def run(self):
         print("Application running")
@@ -66,20 +71,17 @@ class IoTApplication:
         self.root.mainloop()
 
     def setup_lights_frame(self):
-        self.lights_frame = tk.Frame(self.root, width=400, height=100)
+        self.lights_frame = tk.Frame(self.root, width=400, height=300)
         self.lights_frame.pack(side="left", pady=5)
 
-        # Create button with image and function
-        button = ttk.Button(self.lights_frame, command=self.alarm_click)
-        button.pack(pady=30)
 
-        self.lights_canvas = ttk.Canvas(self.lights_frame, width=300, height=100, background="white")
+        self.lights_canvas = ttk.Canvas(self.lights_frame, width=300, height=200, background="white")
         self.lights_canvas.pack()
 
         self.warning_message = self.lights_canvas.create_text(150, 45, text="INITIATING", font=("Digital-7", 25), fill="white")
         warning_background = self.lights_canvas.create_rectangle(80, 20, 220, 70, fill=WARNING_PANEL_COLOR)
         self.lights_canvas.tag_lower(warning_background, self.warning_message)
-
+        self.turn_off_blue_light()
         self.turn_off_green_light()
         self.turn_off_red_light()
 
@@ -116,12 +118,19 @@ class IoTApplication:
         self.temperature_canvas.coords(self.red_bar, 110, red_bar_height, 88, 350)
 
     def turn_off_red_light(self):
-        self.lights_canvas.create_oval(65, 5, 25, 45, fill=RED_LIGHT_OFF_COLOR, outline="black", width="1")
-        self.lights_canvas.create_oval(65, 5, 25, 45, outline="gray7", width="3")
+        self.lights_canvas.create_oval(65, 105, 25, 145, fill=RED_LIGHT_OFF_COLOR, outline="black", width="1")
+        self.lights_canvas.create_oval(65, 105, 25, 145, outline="gray7", width="3")
 
     def turn_off_green_light(self):
         self.lights_canvas.create_oval(65, 55, 25, 95, fill=GREEN_LIGHT_OFF_COLOR, outline="black", width="1")
         self.lights_canvas.create_oval(65, 55, 25, 95, outline="gray7", width="3")
+
+    def turn_off_blue_light(self):
+        self.lights_canvas.create_oval(65, 5, 25, 45, fill=BLUE_LIGHT_OFF_COLOR, outline="black", width="1")
+        self.lights_canvas.create_oval(65, 5, 25, 45, outline="gray7", width="3")
+
+    def turn_on_blue_light(self):
+        self.lights_canvas.create_oval(65, 5, 25, 45, fill=BLUE_LIGHT_ON_COLOR, outline="black", width="1")
 
     def turn_on_red_light(self):
         self.lights_canvas.create_oval(65, 5, 25, 45, fill=RED_LIGHT_ON_COLOR, outline="black", width="1")
@@ -163,6 +172,8 @@ class IoTApplication:
     def generate_temperature_graph(self):
         graph_width = 800
         graph_height = 400
+        x = np.arange(0, 10, 0.1)
+        y = 2 * x + 3 * 2
 
         plt.plot(self.temperature_timestamp, self.temperature_storage)
         plt.xlabel("Timestamp")
@@ -206,6 +217,11 @@ class IoTApplication:
             self.system_fire = True
             self.warning_panel_message("FIRE")
 
+    def button_pressed(self):
+        self.turn_on_blue_light()
+        time.sleep(1)
+        self.turn_off_blue_light()
+
     def warning_panel_message(self, new_message):
         self.lights_canvas.itemconfig(self.warning_message, text=new_message)
 
@@ -216,8 +232,10 @@ class Subscriber:
         self.GENERAL_TOPIC = "/ic/#"
         self.TOPIC = "/ic/Grupo3/"
         self.app = app
-        self.USERNAME = "DuckNet"  # Your network's username
-        self.PASSWORD = "DuckieUPT"  # Your network's password
+        self.USERNAME = "upt-convidados"
+        self.PASSWORD = "welcome2upt"
+        #self.USERNAME = "DuckNet"
+        #self.PASSWORD = "DuckieUPT"
 
     def run(self):
         self.client.on_connect = self.on_connect
@@ -238,7 +256,13 @@ class Subscriber:
             client.subscribe(self.TOPIC + "#")
             print("Subscribing" + self.TOPIC + "#")
             self.app.generate_temperature_graph()
-            self.app.system_on_fire()
+            self.app.turn_on_blue_light()
+            time.sleep(2)
+            self.app.turn_off_blue_light()
+            time.sleep(2)
+            self.app.turn_on_blue_light()
+            time.sleep(2)
+            self.app.turn_off_blue_light()
         else:
             print("Connection failed with code", rc)
 
@@ -254,8 +278,11 @@ class Subscriber:
         elif msg.topic == (self.TOPIC + "fire"):
             self.app.system_on_fire()
             print("FIRE")
+        elif msg.topic == (self.TOPIC + "ok"):
+            self.app.system_on_fire()
+            print("OK")
         elif msg.topic == (self.TOPIC + "button"):
-            self.app.turn_on_blue_light()
+            self.app.button_pressed()
 
 
 if __name__ == "__main__":

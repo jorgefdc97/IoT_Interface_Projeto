@@ -93,12 +93,19 @@ void loop() {
     check_fire(flame_value);
 
     // Button handling
-    if (digitalRead(BUTTON_PIN) == LOW) {
-        turn_on_led(LED_BLUE_PIN);
-        Serial.println("button");
-    } else {
-        turn_off_led(LED_BLUE_PIN);
+    button_pressed();
+
+
+    if (sw.available() > 0) {
+    char bfr[501];
+    memset(bfr, 0, 501);  // cria um buffer para receber os dados
+    sw.readBytesUntil('\n', bfr, 500);  // lê dados para o buffer, até receber \n
+    String data = String(bfr);  // converte os dados do buffer para String
+    String serialData = extract_serial_data(data)
+    if (serialData.equals("button")) {
+      button_pressed()
     }
+  }
 }
 
 void check_fire(float flame_value) {
@@ -110,15 +117,55 @@ void check_fire(float flame_value) {
           alarm_timestamp = millis();
       }
       sw.print("fire");
-      Serial.println("fire");
       system_status = STATUS_FIRE;
     }else{
       if(system_status == STATUS_FIRE){
+        sw.print("ok");
         system_ok();
       }
     }
   }  
 } 
+
+const char* extract_topic(String serialData){
+  String sub_topic;
+  String topic;
+  int text_size = serialData.length() - 1;
+  int index = serialData.indexOf(":");
+
+  if(index >= 0){
+    sub_topic = serialData.substring(0, index);
+
+    topic = TOPIC + sub_topic;
+    topic.trim();
+    return topic.c_str();
+  }
+
+  return serialData.c_str();
+}
+
+void button_pressed(){
+    if (digitalRead(BUTTON_PIN) == LOW) {
+        turn_on_led(LED_BLUE_PIN);
+        Serial.println("button");
+    } else {
+        turn_off_led(LED_BLUE_PIN);
+    }
+}
+
+const char* extract_serial_data(String serialData){
+  String data;
+  int text_size = serialData.length() - 1;
+  int index = serialData.indexOf(":");
+
+  if(index >= 0){
+    data = serialData.substring(index + 1, text_size);
+    data.trim();
+    return data.c_str();
+  }
+
+  return serialData.c_str();
+}
 
 //system is ok
 void system_ok(){
