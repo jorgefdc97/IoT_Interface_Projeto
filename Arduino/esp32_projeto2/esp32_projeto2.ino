@@ -10,9 +10,9 @@ HardwareSerial SerialPort(2);
 // Update these with values suitable for your network.
 //const char* ssid = "upt-convidados";
 //const char* password = "welcome2upt";
-const char* ssid = "upt-convidados";
-const char* password = "welcome2upt";
-const char* mqtt_server = "192.168.0.100";
+const char* ssid = "DuckNet";
+const char* password = "DuckieUPT";
+const char* mqtt_server = "192.168.0.101";
 #define mqtt_port 1883
 #define TOPIC "/ic/Grupo3/"
 const char* topic1 = "/ic/#";
@@ -51,17 +51,17 @@ void loop() {
 }
 
 
-void publishSerialData(const char* serialData) {
+void publishSerialData(const String& serialData) {
   if (!mqttClient.connected()) {
     reconnect();
   }
-  //extract data
-  const char* data = extract_serial_data(serialData);
+  // Extract data
+  String data = extract_serial_data(serialData);
   // Construct topic
-  const char* topic = extract_topic(serialData);
-  //publish data
-  mqttClient.publish(topic, data);
-  //debug
+  String topic = extract_topic(serialData);
+  // Publish data
+  mqttClient.publish(topic.c_str(), data.c_str());
+  // Debug
   Serial.print("Publish : ");
   Serial.print(topic);
   Serial.print(" : ");
@@ -80,36 +80,37 @@ void callback(char* topic, byte* payload, unsigned int length) {
 }
 
 
-const char* extract_topic(String serialData){
+String extract_topic(const String& serialData) {
   String sub_topic;
   String topic;
   int text_size = serialData.length() - 1;
   int index = serialData.indexOf(":");
-  
-  if(index >= 0){
-    sub_topic = serialData.substring(0, index);
 
-    topic = TOPIC + sub_topic;
+  if (index >= 0) {
+    sub_topic = serialData.substring(0, index);
+    topic = String(TOPIC) + sub_topic;
     topic.trim();
-    return topic.c_str();
+    return topic; // Return String directly
   }
 
-  return serialData.c_str();
+  return serialData; // Return String directly
 }
 
-
-const char* extract_serial_data(String serialData){
+String extract_serial_data(const String& serialData) {
   String data;
   int text_size = serialData.length() - 1;
   int index = serialData.indexOf(":");
-  
-  if(index >= 0){
+
+  if (index >= 0) {
     data = serialData.substring(index + 1, text_size);
     data.trim();
-    return data.c_str();
+    //Serial.print("------------------------");
+    //Serial.print(data);
+
+    return data; // Return String directly
   }
-  
-  return serialData.c_str();
+
+  return serialData; // Return String directly
 }
 
 

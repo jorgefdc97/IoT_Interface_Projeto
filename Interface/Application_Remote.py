@@ -12,8 +12,8 @@ import threading
 import time
 
 # Constants
-#BROKER_ADDRESS = "192.168.0.101"
-BROKER_ADDRESS = "127.0.0.1"
+BROKER_ADDRESS = "192.168.0.101"
+#BROKER_ADDRESS = "127.0.0.1"
 PORT = 1883  # Default MQTT port
 
 RED_LIGHT_OFF_COLOR = "indianred4"
@@ -110,7 +110,7 @@ class IoTApplication:
             print(f"Error loading thermometer image: {e}")
 
     def alarm_click(self):
-        self.turn_off_red_light()
+        self.subscriber.client.subscribe('/ic/Grupo3/led')
         print("Button clicked!")
 
     def update_thermometer(self, value):
@@ -133,7 +133,7 @@ class IoTApplication:
         self.lights_canvas.create_oval(65, 5, 25, 45, fill=BLUE_LIGHT_ON_COLOR, outline="black", width="1")
 
     def turn_on_red_light(self):
-        self.lights_canvas.create_oval(65, 5, 25, 45, fill=RED_LIGHT_ON_COLOR, outline="black", width="1")
+        self.lights_canvas.create_oval(65, 105, 25, 145, fill=RED_LIGHT_ON_COLOR, outline="black", width="1")
 
     def turn_on_green_light(self):
         self.lights_canvas.create_oval(65, 55, 25, 95, fill=GREEN_LIGHT_ON_COLOR, outline="black", width="1")
@@ -202,26 +202,6 @@ class IoTApplication:
         for widget in self.graph_frame.winfo_children():
             widget.destroy()
 
-    def system_on_fire(self):
-        if self.system_fire:
-            self.stop_blinking()
-            self.turn_on_green_light()
-            self.system_ok = True
-            self.system_fire = False
-            self.warning_panel_message("OK")
-        else:
-            self.start_blinking()
-            self.turn_on_red_light()
-            self.turn_off_green_light()
-            self.system_ok = False
-            self.system_fire = True
-            self.warning_panel_message("FIRE")
-
-    def button_pressed(self):
-        self.turn_on_blue_light()
-        time.sleep(1)
-        self.turn_off_blue_light()
-
     def warning_panel_message(self, new_message):
         self.lights_canvas.itemconfig(self.warning_message, text=new_message)
 
@@ -232,10 +212,10 @@ class Subscriber:
         self.GENERAL_TOPIC = "/ic/#"
         self.TOPIC = "/ic/Grupo3/"
         self.app = app
-        self.USERNAME = "upt-convidados"
-        self.PASSWORD = "welcome2upt"
-        #self.USERNAME = "DuckNet"
-        #self.PASSWORD = "DuckieUPT"
+        #self.USERNAME = "upt-convidados"
+        #self.PASSWORD = "welcome2upt"
+        self.USERNAME = "DuckNet"
+        self.PASSWORD = "DuckieUPT"
 
     def run(self):
         self.client.on_connect = self.on_connect
@@ -256,13 +236,6 @@ class Subscriber:
             client.subscribe(self.TOPIC + "#")
             print("Subscribing" + self.TOPIC + "#")
             self.app.generate_temperature_graph()
-            self.app.turn_on_blue_light()
-            time.sleep(2)
-            self.app.turn_off_blue_light()
-            time.sleep(2)
-            self.app.turn_on_blue_light()
-            time.sleep(2)
-            self.app.turn_off_blue_light()
         else:
             print("Connection failed with code", rc)
 
@@ -272,17 +245,31 @@ class Subscriber:
         if msg.topic == (self.TOPIC + "test"):
             print("TEST:", msg.payload.decode())
         elif msg.topic == (self.TOPIC + "temp"):
-            new_temp = float(msg.payload.decode())
-            self.app.refresh_temperature(new_temperature=new_temp)
+            temp = msg.payload.decode()
             print("TEMP: ", msg.payload.decode())
+
+            temperature = float(temp)
+            self.app.refresh_temperature(new_temperature=temperature)
+
         elif msg.topic == (self.TOPIC + "fire"):
-            self.app.system_on_fire()
-            print("FIRE")
-        elif msg.topic == (self.TOPIC + "ok"):
-            self.app.system_on_fire()
-            print("OK")
+            if msg.payload.decode() == '0':
+                self.app.stop_blinking()
+                self.app.turn_on_green_light()
+                self.app.system_ok = True
+                self.app.system_fire = False
+                self.app.warning_panel_message("OK")
+            else:
+                self.app.start_blinking()
+                self.app.turn_on_red_light()
+                self.app.turn_off_green_light()
+                self.app.system_ok = False
+                self.app.system_fire = True
+                self.app.warning_panel_message("FIRE")
         elif msg.topic == (self.TOPIC + "button"):
-            self.app.button_pressed()
+            if msg.payload.decode() == '0':
+                self.app.turn_off_blue_light()
+            else:
+                self.app.turn_on_blue_light()
 
 
 if __name__ == "__main__":
