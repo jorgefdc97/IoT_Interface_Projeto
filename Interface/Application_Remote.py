@@ -1,4 +1,3 @@
-import time
 import tkinter as tk
 import ttkbootstrap as ttk
 import os
@@ -6,10 +5,10 @@ from PIL import Image, ImageTk
 import numpy as np
 import matplotlib.pyplot as plt
 import paho.mqtt.client as mqtt
-import threading  # Import threading
 from datetime import datetime
 import threading
 import time
+import re
 
 # Constants
 BROKER_ADDRESS = "192.168.0.101"
@@ -18,10 +17,12 @@ PORT = 1883  # Default MQTT port
 
 RED_LIGHT_OFF_COLOR = "indianred4"
 RED_LIGHT_ON_COLOR = "red3"
-GREEN_LIGHT_OFF_COLOR = "chartreuse4"
+GREEN_LIGHT_OFF_COLOR = "DarkOliveGreen4"
 GREEN_LIGHT_ON_COLOR = "chartreuse2"
 BLUE_LIGHT_OFF_COLOR = "midnight blue"
 BLUE_LIGHT_ON_COLOR = "blue2"
+YELLOW_LIGHT_OFF_COLOR = "goldenrod4"
+YELLOW_LIGHT_ON_COLOR = "gold"
 WARNING_PANEL_COLOR = "gray11"
 
 # Paths
@@ -45,8 +46,10 @@ class IoTApplication:
         self.lights_canvas = None
         self.temperature_frame = None
         self.warning_message = None
+        self.group_message = None
         self.thermometer_image = None
         self.red_bar = None
+        self.snooze = False
         self.temperature_canvas = None
         self.thermometer_frame = None
         self.graph_frame = None
@@ -72,15 +75,27 @@ class IoTApplication:
 
     def setup_lights_frame(self):
         self.lights_frame = tk.Frame(self.root, width=400, height=300)
-        self.lights_frame.pack(side="left", pady=5)
-
+        self.lights_frame.pack(side="left", pady=5, anchor="center")
+        style = ttk.Style()
+        style.configure("Custom.TButton", font=('Arial', 12, 'bold'), foreground="black", background="yellow")
+        button = ttk.Button(self.lights_frame, text="SNOOZE", command=self.snooze_click)
+        button.configure(style="Custom.TButton")
+        button.pack()
 
         self.lights_canvas = ttk.Canvas(self.lights_frame, width=300, height=200, background="white")
         self.lights_canvas.pack()
 
-        self.warning_message = self.lights_canvas.create_text(150, 45, text="INITIATING", font=("Digital-7", 25), fill="white")
-        warning_background = self.lights_canvas.create_rectangle(80, 20, 220, 70, fill=WARNING_PANEL_COLOR)
+        self.warning_message = self.lights_canvas.create_text(150, 55, text="INITIATING", font=("Digital-7", 25),
+                                                              fill="white")
+        warning_background = self.lights_canvas.create_rectangle(80, 30, 220, 80, fill=WARNING_PANEL_COLOR)
         self.lights_canvas.tag_lower(warning_background, self.warning_message)
+
+        self.group_message = self.lights_canvas.create_text(150, 145, text="", font=("Digital-7", 15),
+                                                              fill="white")
+        warning_background = self.lights_canvas.create_rectangle(80, 120, 220, 170, fill=WARNING_PANEL_COLOR)
+        self.lights_canvas.tag_lower(warning_background, self.group_message)
+
+        self.turn_off_yellow_light()
         self.turn_off_blue_light()
         self.turn_off_green_light()
         self.turn_off_red_light()
@@ -109,34 +124,46 @@ class IoTApplication:
         except Exception as e:
             print(f"Error loading thermometer image: {e}")
 
-    def alarm_click(self):
-        self.subscriber.client.subscribe('/ic/Grupo3/led')
-        print("Button clicked!")
+    def snooze_click(self):
+        if self.snooze:
+            self.subscriber.client.publish("/ic/Grupo3_APP/snooze", 0)
+            print("Snooze deactivated!")
+        else:
+            self.subscriber.client.publish("/ic/Grupo3_APP/snooze", 1)
+            print("Snooze activated!")
+
 
     def update_thermometer(self, value):
         red_bar_height = 225 - (value * 2.6)
         self.temperature_canvas.coords(self.red_bar, 110, red_bar_height, 88, 350)
 
-    def turn_off_red_light(self):
-        self.lights_canvas.create_oval(65, 105, 25, 145, fill=RED_LIGHT_OFF_COLOR, outline="black", width="1")
-        self.lights_canvas.create_oval(65, 105, 25, 145, outline="gray7", width="3")
-
-    def turn_off_green_light(self):
-        self.lights_canvas.create_oval(65, 55, 25, 95, fill=GREEN_LIGHT_OFF_COLOR, outline="black", width="1")
-        self.lights_canvas.create_oval(65, 55, 25, 95, outline="gray7", width="3")
-
-    def turn_off_blue_light(self):
-        self.lights_canvas.create_oval(65, 5, 25, 45, fill=BLUE_LIGHT_OFF_COLOR, outline="black", width="1")
-        self.lights_canvas.create_oval(65, 5, 25, 45, outline="gray7", width="3")
-
-    def turn_on_blue_light(self):
-        self.lights_canvas.create_oval(65, 5, 25, 45, fill=BLUE_LIGHT_ON_COLOR, outline="black", width="1")
-
     def turn_on_red_light(self):
-        self.lights_canvas.create_oval(65, 105, 25, 145, fill=RED_LIGHT_ON_COLOR, outline="black", width="1")
+        self.lights_canvas.create_oval(65, 155, 25, 195, fill=RED_LIGHT_ON_COLOR, outline="black", width="1")
+
+    def turn_off_red_light(self):
+        self.lights_canvas.create_oval(65, 155, 25, 195, fill=RED_LIGHT_OFF_COLOR, outline="black", width="1")
+        self.lights_canvas.create_oval(65, 155, 25, 195, outline="gray7", width="3")
 
     def turn_on_green_light(self):
-        self.lights_canvas.create_oval(65, 55, 25, 95, fill=GREEN_LIGHT_ON_COLOR, outline="black", width="1")
+        self.lights_canvas.create_oval(65, 105, 25, 145, fill=GREEN_LIGHT_ON_COLOR, outline="black", width="1")
+
+    def turn_off_green_light(self):
+        self.lights_canvas.create_oval(65, 105, 25, 145, fill=GREEN_LIGHT_OFF_COLOR, outline="black", width="1")
+        self.lights_canvas.create_oval(65, 105, 25, 145, outline="gray7", width="3")
+
+    def turn_on_blue_light(self):
+        self.lights_canvas.create_oval(65, 55, 25, 95, fill=BLUE_LIGHT_ON_COLOR, outline="black", width="1")
+
+    def turn_off_blue_light(self):
+        self.lights_canvas.create_oval(65, 55, 25, 95, fill=BLUE_LIGHT_OFF_COLOR, outline="black", width="1")
+        self.lights_canvas.create_oval(65, 55, 25, 95, outline="gray7", width="3")
+
+    def turn_on_yellow_light(self):
+        self.lights_canvas.create_oval(65, 5, 25, 45, fill=YELLOW_LIGHT_ON_COLOR, outline="black", width="1")
+
+    def turn_off_yellow_light(self):
+        self.lights_canvas.create_oval(65, 5, 25, 45, fill=YELLOW_LIGHT_OFF_COLOR, outline="black", width="1")
+        self.lights_canvas.create_oval(65, 5, 25, 45, outline="gray7", width="3")
 
     def toggle_red_light(self):
         while self.is_blinking:
@@ -205,12 +232,16 @@ class IoTApplication:
     def warning_panel_message(self, new_message):
         self.lights_canvas.itemconfig(self.warning_message, text=new_message)
 
+    def group_panel_message(self, new_message):
+        self.lights_canvas.itemconfig(self.group_message, text=new_message)
+
 
 class Subscriber:
     def __init__(self, app):
         self.client = mqtt.Client(client_id="Grupo3_Interface")
         self.GENERAL_TOPIC = "/ic/#"
         self.TOPIC = "/ic/Grupo3/"
+        self.TOPIC_APP = "/ic/Grupo3_APP/"
         self.app = app
         #self.USERNAME = "upt-convidados"
         #self.PASSWORD = "welcome2upt"
@@ -233,8 +264,10 @@ class Subscriber:
     def on_connect(self, client, userdata, flags, rc):
         if rc == 0:
             print("Connected to broker")
-            client.subscribe(self.TOPIC + "#")
-            print("Subscribing" + self.TOPIC + "#")
+            self.client.subscribe(self.TOPIC + "#")
+            self.client.subscribe("/ic/+/alarme")
+            self.app.turn_on_green_light()
+            self.app.warning_panel_message("OK")
             self.app.generate_temperature_graph()
         else:
             print("Connection failed with code", rc)
@@ -242,15 +275,14 @@ class Subscriber:
     def on_message(self, client, userdata, msg):
         print("Received message on topic:", msg.topic)
         print("Message payload:", msg.payload.decode())
+        pattern = re.compile(r'^/ic/([a-zA-Z]+[0-24-9])/alarme$')
         if msg.topic == (self.TOPIC + "test"):
             print("TEST:", msg.payload.decode())
         elif msg.topic == (self.TOPIC + "temp"):
             temp = msg.payload.decode()
-            print("TEMP: ", msg.payload.decode())
-
             temperature = float(temp)
             self.app.refresh_temperature(new_temperature=temperature)
-
+            print("TEMP: ", msg.payload.decode())
         elif msg.topic == (self.TOPIC + "fire"):
             if msg.payload.decode() == '0':
                 self.app.stop_blinking()
@@ -265,11 +297,20 @@ class Subscriber:
                 self.app.system_ok = False
                 self.app.system_fire = True
                 self.app.warning_panel_message("FIRE")
-        elif msg.topic == (self.TOPIC + "button"):
+        elif msg.topic == (self.TOPIC + "alarme"):
             if msg.payload.decode() == '0':
                 self.app.turn_off_blue_light()
             else:
                 self.app.turn_on_blue_light()
+        elif pattern.match(msg.topic):
+            match = re.search(pattern, msg.topic)
+            sender = match.group(1)
+            if msg.payload.decode() == '0':
+                self.app.turn_off_yellow_light()
+                self.app.group_panel_message("")
+            else:
+                self.app.turn_on_yellow_light()
+                self.app.group_panel_message(sender)
 
 
 if __name__ == "__main__":

@@ -15,17 +15,18 @@ const char* password = "DuckieUPT";
 const char* mqtt_server = "192.168.0.101";
 #define mqtt_port 1883
 #define TOPIC "/ic/Grupo3/"
-const char* topic1 = "/ic/#";
+#define TOPIC_APP "/ic/Grupo3_APP/#"
+const char* topic1 = "/ic/+/alarme";
 
 WiFiClient wifiClient;
 PubSubClient mqttClient(wifiClient);
 
 
 void setup() {
-  Serial.begin(19200);
+  Serial.begin(115200);
   Serial.setTimeout(500);  // Set timeout for serial reading
   // Initialize Serial2 for communication with Arduino
-  SerialPort.begin(115200, SERIAL_8N1, 16, 17);
+  SerialPort.begin(19200, SERIAL_8N1, 16, 17);
   setup_wifi();
   mqttClient.setServer(mqtt_server, mqtt_port);
   mqttClient.setCallback(callback);
@@ -35,19 +36,15 @@ void setup() {
 
 void loop() {
   mqttClient.loop();
-  //Serial.println(".");
   if (SerialPort.available() > 0) {
     char bfr[501];
     memset(bfr, 0, 501);
     SerialPort.readBytesUntil('\n', bfr, 500);
     String b = String(bfr);
-    Serial.println("SERIAL DATA: ");
     publishSerialData(bfr); // Publish : /ic/Grupo3 : temp:14.45
-    Serial.println("========== ");
   }
   //Serial.print("ola");
   //SerialPort.print("ola");
-  delay(15000);
 }
 
 
@@ -81,36 +78,25 @@ void callback(char* topic, byte* payload, unsigned int length) {
 
 
 String extract_topic(const String& serialData) {
-  String sub_topic;
-  String topic;
-  int text_size = serialData.length() - 1;
   int index = serialData.indexOf(":");
-
   if (index >= 0) {
-    sub_topic = serialData.substring(0, index);
-    topic = String(TOPIC) + sub_topic;
+    String sub_topic = serialData.substring(0, index);
+    String topic = String(TOPIC) + sub_topic;
     topic.trim();
-    return topic; // Return String directly
+    return topic;
   }
-
-  return serialData; // Return String directly
+  return serialData;
 }
 
+
 String extract_serial_data(const String& serialData) {
-  String data;
-  int text_size = serialData.length() - 1;
   int index = serialData.indexOf(":");
-
   if (index >= 0) {
-    data = serialData.substring(index + 1, text_size);
+    String data = serialData.substring(index + 1);
     data.trim();
-    //Serial.print("------------------------");
-    //Serial.print(data);
-
-    return data; // Return String directly
+    return data;
   }
-
-  return serialData; // Return String directly
+  return serialData;
 }
 
 
@@ -123,7 +109,6 @@ void setup_wifi() {
   WiFi.begin(ssid, password);
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
-    Serial.print(".");
   }
   Serial.println();
   Serial.println("WiFi connected");
@@ -136,17 +121,17 @@ void reconnect() {
   // Loop until we're reconnected
   while (!mqttClient.connected()) {
     Serial.print("Attempting MQTT connection...");
-    char* clientId = "Grupo3_ESP32";
-    if (mqttClient.connect(clientId)) {
+    if (mqttClient.connect("Grupo3_ESP32")) {
       Serial.println("mqttClient connected");
       mqttClient.publish(TOPIC, "hello world");
       Serial.print("Publish : ");
       Serial.print(TOPIC);
       Serial.print(" : ");
       Serial.println("hello world");
-      //boolean res = mqttClient.subscribe(topic1);
+      boolean res = mqttClient.subscribe(topic1);
+      boolean res = mqttClient.subscribe(TOPIC_APP);
       Serial.print(topic1); 
-      //Serial.println(res ? "  true" : "  false");
+      Serial.println(res ? "  true" : "  false");
     } else {
       Serial.print("failed, rc=");
       Serial.print(mqttClient.state());

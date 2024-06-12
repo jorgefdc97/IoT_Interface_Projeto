@@ -1,55 +1,93 @@
+import threading
 import tkinter as tk
-import os
-from PIL import Image, ImageTk
+from tkinter import ttk
+import paho.mqtt.client as mqtt
+import time
+
+# Constants
+broker_address = "127.0.0.1"
+port = 1883
+TOPIC = "/ic/Grupo3/"
 
 
-class Application:
-    SCRIPT_PATH = os.path.dirname(__file__)
-    RESOURCES_DIR = os.path.join(SCRIPT_PATH, "resources")
+class ESP32Simulator:
+    def __init__(self, root):
+        self.root = root
+        self.client = mqtt.Client(client_id="ESP32Simulator")
+        self.client.on_connect = self.on_connect
+        self.client.connect(broker_address, port)
+        self.fire_status = False
+        self.button_pressed = False
+        self.alarm_status = False
+        # Run MQTT client in a separate thread
+        mqtt_thread = threading.Thread(target=self.client.loop_forever)
+        mqtt_thread.daemon = True  # Allows thread to exit when main program exits
+        mqtt_thread.start()
 
-    def __init__(self, master):
-        self.master = master
-        self.master.title("Thermometer App")
+        self.create_widgets()
 
-        # Create a Canvas widget
-        self.canvas = tk.Canvas(self.master, width=200, height=400)
-        self.canvas.pack()
+    def on_connect(self, client, userdata, flags, rc):
+        if rc == 0:
+            print("Connected to broker")
+        else:
+            print("Connection failed with code", rc)
 
-        # Load the thermometer image
-        image_path = os.path.join(self.RESOURCES_DIR, "thermometer.png")
+    def create_widgets(self):
+        self.temp_button = ttk.Button(self.root, text="Publish Temp", command=self.publish_temp)
+        self.temp_button.pack(pady=10)
 
-        # Create a rectangle to represent the red bar
-        self.red_bar = self.canvas.create_rectangle(106, 350, 91, 350, fill="red")
+        self.fire_button = ttk.Button(self.root, text="Publish Fire", command=self.publish_fire)
+        self.fire_button.pack(pady=10)
 
-        try:
-            image = Image.open(image_path)
-            img = image.resize((50, 200))
-            # Load the thermometer image
-            self.thermometer_image = ImageTk.PhotoImage(img)
+        self.button_button = ttk.Button(self.root, text="Publish Button", command=self.publish_button)
+        self.button_button.pack(pady=10)
 
-            # Resize image
+        self.button_button = ttk.Button(self.root, text="Publish Alarm", command=self.publish_alarm)
+        self.button_button.pack(pady=10)
 
-            # Display the thermometer image on the canvas
-            self.canvas.create_image(100, 300, image=self.thermometer_image)
-        except tk.TclError as e:
-            print("Error loading image:", e)
+        self.temp_entry = ttk.Entry(self.root)
+        self.temp_entry.pack(pady=10)
+        self.temp_entry.insert(0, "25.0")  # Default temperature value
 
-        # Create a Scale widget (slider)
-        self.slider = tk.Scale(self.master, from_=0, to=36, orient=tk.HORIZONTAL, command=self.update_thermometer)
-        self.slider.pack()
+    def publish_temp(self):
+        temp = self.temp_entry.get()
+        self.client.publish(TOPIC + "temp", temp)
+        print(f"Published Temp: {temp}")
 
-    def update_thermometer(self, value):
-        # Update the height of the red bar according to the slider value
-        slider_value = int(value)
-        red_bar_height = 350 - (slider_value * 3.5)  # Each unit of the slider represents 3.5 pixels
-        self.canvas.coords(self.red_bar, 106, red_bar_height, 91, 350)
+    def publish_fire(self):
+        if self.fire_status:
+            fire_status = "0"
+        else:
+            fire_status = "1"
+        self.fire_status = not self.fire_status
+        self.client.publish(TOPIC + "fire", fire_status)
+        print(f"Published Fire: {fire_status}")
 
+    def publish_alarm(self):
+        if self.alarm_status:
+            alarm_status = "0"
+        else:
+            alarm_status = "1"
+        self.alarm_status = not self.alarm_status
+        self.client.publish("/ic/Grupo2/alarme", alarm_status)
+        print(f"Published Alarm: {alarm_status}")
 
-def main():
-    root = tk.Tk()
-    Application(root)
-    root.mainloop()
+    def publish_button(self):
+        if self.button_pressed:
+            button_status = "0"  # Fire detected
+        else:
+            button_status = "1"
+        self.button_pressed = not self.button_pressed
+        # Button pressed
+        self.client.publish(TOPIC + "button", button_status)
+        print(f"Published Button: {button_status}")
 
 
 if __name__ == "__main__":
-    main()
+    root = tk.Tk()
+    root.title("ESP32 Simulator")
+    root.geometry("300x250")
+
+    simulator = ESP32Simulator(root)
+
+    root.mainloop()
