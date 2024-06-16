@@ -154,19 +154,8 @@ The `Subscriber` class in the `Application.py` script handles various MQTT topic
    - For fire and alarm updates (`/ic/Grupo3/fire`, `/ic/Grupo3/alarme`), it updates the visual indicators on the GUI.
    - For dynamic group-specific alarms, it adjusts the corresponding group messages and visual cues.
 
-By using these topics, the `Subscriber` class ensures that the IoT application can effectively monitor and respond to various signals and data points, maintaining an accurate and responsive interface for the users.
-
-
 ## Notes
 
 - Ensure that the MQTT broker address and credentials in the application scripts match your setup.
 - The GUI requires certain images to be present in the `resources` directory. Make sure these images are correctly placed and named as expected by the application.
 - The correct display of some fonts needs to match `Digital-7`
-
-## License
-
-This project is licensed under the MIT License. See the LICENSE file for details.
-
----
-
-This README provides a clear and detailed overview of the project, guiding users through the directory structure, setup, and usage.
