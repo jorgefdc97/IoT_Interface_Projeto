@@ -4,10 +4,29 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e508f1b6-f830-4357-8404-c6b12f449db3" name="Changes" comment="Subscription by interface">
+    <list default="true" id="e508f1b6-f830-4357-8404-c6b12f449db3" name="Changes" comment="Receiving communications">
+      <change afterPath="$PROJECT_DIR$/Interface/Local/PublisherMenu.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Arduino/Arduino" beforeDir="false" afterPath="$PROJECT_DIR$/Arduino/Arduino" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Arduino/ESP32" beforeDir="false" afterPath="$PROJECT_DIR$/Arduino/ESP32" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Arduino/arduino_projeto2/arduino_projeto2.ino" beforeDir="false" afterPath="$PROJECT_DIR$/Arduino_and_MQTT/arduino_projeto2/arduino_projeto2.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Arduino/esp32_projeto2/esp32_projeto2.ino" beforeDir="false" afterPath="$PROJECT_DIR$/Arduino_and_MQTT/esp32_projeto2/esp32_projeto2.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Help/layout.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Help/pack-frames.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Help/pack-layout.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Interface/Application.py" beforeDir="false" afterPath="$PROJECT_DIR$/Interface/Local/Application.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Interface/Application_Remote.py" beforeDir="false" afterPath="$PROJECT_DIR$/Interface/Remote/Application_Remote.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Interface/Help/MenuButton.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Interface/Help/menus.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Interface/Help/tabs.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Interface/Help/window-size.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Interface/Teste.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Interface/icon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Interface/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Interface/resources/alarm_bell.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Interface/resources/temperature_register.png" beforeDir="false" afterPath="$PROJECT_DIR$/Interface/resources/temperature_register.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MQTT/Publisher.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MQTT/Publisher_Remote.py" beforeDir="false" afterPath="$PROJECT_DIR$/MQTT_Simulator/Publisher_Remote.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MQTT/Subscriber.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MQTT/Subscriber_Remote.py" beforeDir="false" afterPath="$PROJECT_DIR$/MQTT_Simulator/Subscriber_Remote.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,7 +43,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="jorge" />
+        <entry key="$PROJECT_DIR$" value="master" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -62,7 +81,7 @@
     &quot;Python.Test_iot.executor&quot;: &quot;Run&quot;,
     &quot;Python.gui.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;communication&quot;,
     &quot;last_opened_file_path&quot;: &quot;D:/PycharmProjects/LaboratorioAnaliseDados_Projeto&quot;
   }
 }</component>
@@ -71,12 +90,36 @@
       <recent name="C:\Users\jorge\PycharmProjects\IoT_Interface_Projeto" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\PycharmProjects\IoT_Interface_Projeto\Interface\Local" />
+      <recent name="D:\PycharmProjects\IoT_Interface_Projeto\Interface\Remote" />
+      <recent name="D:\PycharmProjects\IoT_Interface_Projeto" />
+      <recent name="D:\PycharmProjects\IoT_Interface_Projeto\Interface\Help" />
       <recent name="D:\PycharmProjects\IoT_Interface_Projeto\Interface" />
-      <recent name="C:\Users\jorge\PycharmProjects\IoT_Interface_Projeto\resources" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.Application_Remote">
+  <component name="RunManager" selected="Python.PublisherMenu (1)">
     <configuration name="Application (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="IoT_Interface_Projeto" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Interface/Local" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Interface/Local/Application.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Application" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="IoT_Interface_Projeto" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -88,7 +131,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Interface/Application.py" />
+      <option name="SCRIPT_NAME" value="D:\PycharmProjects\IoT_Interface_Projeto\Interface\Local\Application.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -109,7 +152,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Interface/Application_Remote.py" />
+      <option name="SCRIPT_NAME" value="D:\PycharmProjects\IoT_Interface_Projeto\Interface\Remote\Application_Remote.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -118,7 +161,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Publisher" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="PublisherMenu (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="IoT_Interface_Projeto" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -126,11 +169,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/MQTT" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Interface/Local" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/MQTT/Publisher.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Interface/Local/PublisherMenu.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -139,7 +182,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Publisher_Remote" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="PublisherMenu" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="IoT_Interface_Projeto" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -147,11 +190,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/MQTT" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Interface" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/MQTT/Publisher_Remote.py" />
+      <option name="SCRIPT_NAME" value="D:\PycharmProjects\IoT_Interface_Projeto\Interface\Local\PublisherMenu.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -160,7 +203,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Subscriber (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="PublisherMenu" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="IoT_Interface_Projeto" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -168,11 +211,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/MQTT" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Interface" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/MQTT/Subscriber.py" />
+      <option name="SCRIPT_NAME" value="D:\PycharmProjects\IoT_Interface_Projeto\Interface\Local\PublisherMenu.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -183,11 +226,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.Application_Remote" />
+        <item itemvalue="Python.PublisherMenu (1)" />
         <item itemvalue="Python.Application (1)" />
-        <item itemvalue="Python.Publisher" />
-        <item itemvalue="Python.Subscriber (1)" />
-        <item itemvalue="Python.Publisher_Remote" />
+        <item itemvalue="Python.PublisherMenu (1)" />
+        <item itemvalue="Python.Application" />
+        <item itemvalue="Python.Application_Remote" />
       </list>
     </recent_temporary>
   </component>
@@ -263,7 +306,31 @@
       <option name="project" value="LOCAL" />
       <updated>1716814256836</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Status methods">
+      <option name="closed" value="true" />
+      <created>1717614401309</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1717614401309</updated>
+    </task>
+    <task id="LOCAL-00009" summary="callback">
+      <option name="closed" value="true" />
+      <created>1718202339529</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1718202339529</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Receiving communications">
+      <option name="closed" value="true" />
+      <created>1718218871588</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1718218871588</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -285,6 +352,9 @@
     <MESSAGE value="Arduino script with string messages to print in serial and go to ESP32" />
     <MESSAGE value="Application Remote" />
     <MESSAGE value="Subscription by interface" />
-    <option name="LAST_COMMIT_MESSAGE" value="Subscription by interface" />
+    <MESSAGE value="Status methods" />
+    <MESSAGE value="callback" />
+    <MESSAGE value="Receiving communications" />
+    <option name="LAST_COMMIT_MESSAGE" value="Receiving communications" />
   </component>
 </project>

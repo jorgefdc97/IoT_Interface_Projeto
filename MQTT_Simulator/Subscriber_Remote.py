@@ -1,5 +1,4 @@
 import paho.mqtt.client as mqtt
-import Interface.Application as app
 
 BROKER_ADDRESS = "192.168.0.101"  # broker's IP address
 PORT = 1883  # Default MQTT port

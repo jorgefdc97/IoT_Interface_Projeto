@@ -1,3 +1,7 @@
 #RUN THE COMMAND: pip install -r requirements.txt
 
 ttkbootstrap~=1.10.1
+paho-mqtt~=2.1.0
+numpy~=1.26.4
+matplotlib~=3.8.4
+pillow~=10.3.0
