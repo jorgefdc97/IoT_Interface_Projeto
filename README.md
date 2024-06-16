@@ -1,7 +1,3 @@
-Here's a README file for the `IoT_Interface_Projeto` directory that describes the structure and contents of each file and directory:
-
----
-
 # IoT_Interface_Projeto
 
 ## Project Overview
