@@ -234,6 +234,8 @@ class IoTApplication:
         """Refresh the temperature display with a new temperature value."""
         now = datetime.now()
         timestamp = now.strftime("%H:%M:%S")
+        # Generate the updated temperature graph with the last 20 temperatures
+        self.generate_temperature_graph()
 
         # Update the temperature storage and timestamps
         self.temperature_timestamp = self.temperature_timestamp[1:]
@@ -242,8 +244,7 @@ class IoTApplication:
         self.temperature_storage = self.temperature_storage[1:]
         self.temperature_storage.append(new_temperature)
 
-        # Generate the updated temperature graph and update the thermometer display
-        self.generate_temperature_graph()
+        # Update the thermometer display with current temperature
         self.update_thermometer(new_temperature)
 
     def generate_temperature_graph(self):
