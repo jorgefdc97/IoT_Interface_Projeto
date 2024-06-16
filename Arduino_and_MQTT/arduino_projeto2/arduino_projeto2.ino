@@ -41,16 +41,17 @@ String system_status;
 const String STATUS_OK = "OK";
 const String STATUS_FIRE = "FIRE";
 const String TOPIC = "/ic/Grupo3/";
-unsigned long lcd_timestamp;
-unsigned long alarm_timestamp;
+float lcd_timestamp;
+float alarm_timestamp;
+float fire_timestamp;
 int flame_value;
 float celsius;
 bool button_status;
-float fire_timestamp;
+
 
 void setup() {
-    Serial.begin(115200);
-    sw.begin(19200);
+    Serial.begin(115200); //sending data
+    sw.begin(19200); //receiving data
     // Inputs
     IrReceiver.begin(IR_RECEIVER_PIN, ENABLE_LED_FEEDBACK); // IR receiver
     pinMode(BUTTON_PIN, INPUT_PULLUP);
@@ -68,11 +69,10 @@ void setup() {
     lcd.begin(16, 2);
     lcd.init();
     lcd.backlight();
-    
-    system_status = "FIRE";
+
+    system_ok();
     celsius = 0;
     button_status = false;
-    flame_value = 1000;
 }
 
 void loop() {
@@ -99,22 +99,22 @@ void loop() {
     // Button handling
     button_pressed();
 
-
     if (sw.available() > 0) {
         char bfr[501];
         memset(bfr, 0, 501);  // cria um buffer para receber os dados
         sw.readBytesUntil('\n', bfr, 500);  // lê dados para o buffer, até receber \n
         String data = String(bfr);  // converte os dados do buffer para String
         String topic = extract_topic(data);
-        if (topic.equals("/ic/Grupo3/led")) {
-          button_pressed();
+        if (topic.equals("/ic/+/alarme")) {
+          turn_on_alarm();
         }
-  }
+        //Serial.println("TOCOU ALARME");
+        //sw.println("TOCOU ALARME");
+    }
 }
 
 void check_fire(float flame_value) {
   if (flame_value < 940) {
-    //sw.println(flame_value);
     if(system_status != STATUS_FIRE){
       turn_red();
       if (millis() - alarm_timestamp > 3000) {
@@ -133,61 +133,45 @@ void check_fire(float flame_value) {
       sw.println("fire:0");
     }
   }
-} 
-
-const char* extract_topic(String serialData){
-  String sub_topic;
-  String topic;
-  int text_size = serialData.length() - 1;
-  int index = serialData.indexOf(":");
-
-  if(index >= 0){
-    sub_topic = serialData.substring(0, index);
-    topic = TOPIC + sub_topic;
-    topic.trim();
-    return topic.c_str();
-  }
-
-  return serialData.c_str();
 }
+
+
+String extract_topic(const String& serialData) {
+  int index = serialData.indexOf(":");
+  if (index >= 0) {
+    String sub_topic = serialData.substring(0, index);
+    String topic = String(TOPIC) + sub_topic;
+    topic.trim();
+    return topic;
+  }
+  return serialData;
+}
+
 
 void button_pressed(){
     if (digitalRead(BUTTON_PIN) == LOW) {
-        if(button_status == false){
+        if(!button_status){
           button_status = true;
           turn_on_led(LED_BLUE_PIN);
-          Serial.println("button:1");
-          sw.println("button:1");
+          Serial.println("alarme:1");
+          sw.println("alarme:1");
         }
     } else {
-        if(button_status == true){
+        if(button_status){
           button_status = false;
           turn_off_led(LED_BLUE_PIN);
-          Serial.println("button:0");
-          sw.println("button:0");
+          Serial.println("alarme:0");
+          sw.println("alarme:0");
         }
     }
 }
 
-const char* extract_serial_data(String serialData){
-  String data;
-  int text_size = serialData.length() - 1;
-  int index = serialData.indexOf(":");
-
-  if(index >= 0){
-    data = serialData.substring(index + 1, text_size);
-    data.trim();
-    return data.c_str();
-  }
-
-  return serialData.c_str();
-}
-
 //system is ok
 void system_ok(){
-    system_status = STATUS_OK; 
+    system_status = STATUS_OK;
+    turn_green();
     refresh_lcd();
-} 
+}
 
 void refresh_lcd(){
   lcd.clear();

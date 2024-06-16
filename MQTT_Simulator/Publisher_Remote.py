@@ -8,11 +8,13 @@ password = "DuckieUPT"  # Your network's password
 
 client = mqtt.Client(client_id="Publisher")
 
+
 def on_connect(client, userdata, flags, rc):
     if rc == 0:
         print("Connected to broker")
     else:
         print("Connection failed with code", rc)
+
 
 client.on_connect = on_connect
 
